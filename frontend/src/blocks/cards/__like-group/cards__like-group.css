@@ -1,0 +1,5 @@
+.cards__like-group{
+    display: flex;
+    flex-direction: column;
+    width: 22px;
+}

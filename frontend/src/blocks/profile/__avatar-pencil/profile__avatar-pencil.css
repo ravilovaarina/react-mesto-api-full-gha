@@ -1,0 +1,12 @@
+.profile__avatar-pencil {
+    position: absolute;
+    top: 47px;
+    left: 47px;
+    width: 26px;
+    height: 26px;
+    opacity: 0;
+}
+
+.profile__avatar-pencil:hover{
+    opacity: 1;
+}
