@@ -9,7 +9,7 @@
 
 ## Ссылки на проект
 
-IP-адрес 51.250.24.218
+IP 51.250.24.218
 
 Frontend https://mestoarina.nomoredomainsmonster.ru
 
