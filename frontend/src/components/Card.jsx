@@ -5,7 +5,6 @@ function Card(props) {
     const isOwn = props.card.owner._id === currentUser._id;
     const isLiked = props.card.likes.some(i => i._id === currentUser._id);
 
-
     const cardLikeButtonClassName = `${isLiked ? 'cards__button-like cards__button-like_active' : 'cards__button-like'}`
     function handleCardClick() {
         props.onCardClick(props.card)

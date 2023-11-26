@@ -46,7 +46,8 @@ class Auth {
 }
 
 const auth = new Auth({
-    baseUrl: 'http://localhost:3001',
+    baseUrl: 'https://api.mestoarina.nomoredomainsmonster.ru',
+    //baseUrl: 'http://localhost:3001',
     headers: {
       'Content-Type': 'application/json'
     }

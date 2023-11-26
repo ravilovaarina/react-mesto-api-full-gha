@@ -113,6 +113,7 @@ class Api {
 
     putCardLike(cardId) {
         const token = localStorage.getItem('jwt')
+        console.log(token)
         return fetch(`${this._url}/cards/${cardId}/likes`, {
             method: 'PUT',
             headers: {
