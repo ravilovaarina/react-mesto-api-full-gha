@@ -14,9 +14,10 @@ module.exports = (req, res, next) => {
   // const cookieAuth = req.cookies.jwt;
   const { authorization } = req.headers;
   if (!authorization) {
+    console.log('hello');
     return handleAuthError(next);
   }
-  const token = authorization.split('Bearer ')[1];
+  const token = authorization.replace('Bearer ', '');
   let payload;
   try {
     payload = jwt.verify(token, JWT_SECRET);
