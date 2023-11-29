@@ -2,8 +2,11 @@ import React from "react"
 import { CurrentUserContext } from "../contexts/CurrentUserContext"
 function Card(props) {
     const currentUser = React.useContext(CurrentUserContext);
-    const isOwn = props.card.owner._id === currentUser._id;
-    const isLiked = props.card.likes.some(i => i._id === currentUser._id);
+    
+    const isOwn = props.card.owner === currentUser._id;
+    const isLiked = props.card.likes.some(id => id === currentUser._id);
+    console.log(isOwn)
+    console.log(isLiked)
 
     const cardLikeButtonClassName = `${isLiked ? 'cards__button-like cards__button-like_active' : 'cards__button-like'}`
     function handleCardClick() {

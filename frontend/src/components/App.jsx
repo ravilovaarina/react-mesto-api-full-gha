@@ -9,7 +9,7 @@ import EditProfilePopup from './EditProfilePopup.jsx';
 import EditAvatarPopup from './EditAvatarPopup.jsx';
 import AddPlacePopup from './AddPlacePopup.jsx';
 import { api } from '../utils/Api.js';
-import { Routes, Route, useNavigate } from 'react-router-dom'
+import { Routes, Route, useNavigate} from 'react-router-dom'
 import ProtectedRoute from './ProtectedRoute.jsx';
 import Login from './Login.jsx';
 import Register from './Register.jsx';
@@ -29,14 +29,7 @@ function App() {
     const [isSuccessfulSignUp, setIsSuccessfulSignUp] = React.useState(false)
     const [authorizationUserEmail, setAutorizationUserEmail] = React.useState(null);
     const navigate = useNavigate()
-    React.useEffect(() => {
-        api.getInfo()
-            .then((data) => {
-                setCurrentUser(data)
-            })
-            .catch(console.error)
-    }, [])
-
+    
     function handleEditProfilePopupOpen() {
         setIsEditProfilePopupOpen(!isEditProfilePopupOpen)
     }
@@ -63,19 +56,12 @@ function App() {
         setIsInfoTooltipOpen(false)
         setSelectedCard({})
     }
-    React.useEffect(() => {
-        api.getInitialCards()
-            .then((data) => {
-                setCards(data);
-            })
-            .catch(console.error)
-    }, [])
-    function handleCardLike(card) {
-        const isLiked = card.likes.some(i => i._id === currentUser._id);
 
+    function handleCardLike(card) {
+        const isLiked = card.likes.some(user => user === currentUser._id);
         api.changeLikeCardStatus(card._id, isLiked)
-            .then((newCard) => {
-                setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+            .then((likedCard) => {
+                setCards((state) => state.map((c) => c._id === card._id ? likedCard : c));
             })
             .catch(console.error)
     }
@@ -124,6 +110,7 @@ function App() {
                 (data) => {
                     setIsSuccessfulSignUp(true);
                     handleInfoTooltipPopupOpen();
+                    setCurrentUser({ ...currentUser, data });
                 })
             .catch((err) => {
                 console.log(err)
@@ -149,25 +136,38 @@ function App() {
     }
     const handleCheckToken = React.useCallback(
         () => {
-            const token = localStorage.getItem('jwt');
-            auth.checkToken(token)
+            auth.checkToken()
                 .then(
                     (data) => {
                         setAutorizationUserEmail(data.email);
                         setLoggedIn(true);
+                        setCurrentUser(data);
                         navigate('/')
                     })
-                .catch(console.error)
+                .catch((err) => {
+                    localStorage.removeItem('jwt');
+                    console.log(err)
+                })
         }
     )
-    
+
     React.useEffect(() => {
         const token = localStorage.getItem('jwt');
 
         if (token) {
             handleCheckToken();
+            api.getInitialCards()
+                .then((data) => {
+                    setCards(data);
+                })
+                .catch(console.error)
+            api.getInfo()
+                .then((data) => {
+                    setCurrentUser(data)
+                })
+                .catch(console.error)
         }
-    }, [])
+    }, [setLoggedIn])
 
 
     function handleSignOut() {
