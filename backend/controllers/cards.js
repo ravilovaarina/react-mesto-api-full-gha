@@ -16,7 +16,7 @@ module.exports.createCard = (req, res, next) => {
   CardModel.create({ name, link, owner })
     .then((card) => {
       card
-        .then(() => res.send(card))
+        .then(() => res.status(200).send(card))
         .catch(next);
     })
     .catch((err) => {
