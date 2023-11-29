@@ -36,6 +36,7 @@ module.exports.deleteCard = (req, res, next) => {
   };
   CardModel.findById(req.params.cardId)
     .then((card) => {
+      if (req.user._id !== card.owner.toString()) throw new ForbiddenError('Нет прав доступа');
       if (!card) throw new NotFoundError('Карточки не существует');
       if (req.user._id === card.owner.toString()) {
         return removeCard();
