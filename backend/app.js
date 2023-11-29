@@ -44,7 +44,6 @@ app.use('/cards', require('./routes/cards'));
 
 app.use(errorLogger);
 app.use(errors());
-
 app.all('*', (req, res, next) => {
   next(new NotFoundError('Неправильный путь'));
 });
